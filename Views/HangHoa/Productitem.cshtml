@@ -1,0 +1,15 @@
+﻿@model ECommerceMVC.ViewModels.HangHoaVM
+
+<div class="col-md-6 col-lg-4">
+    <div class="rounded shadow-sm position-relative fruite-item">
+        <a asp-controller="HangHoa" asp-action="ChiTiet" asp-route-id="@Model.MaHH">
+            <img src="~/Hinh/HangHoa/@Model.Hinh"
+                 class="img-fluid w-100 rounded-top"
+                 alt="@Model.TenHH" />
+        </a>
+        <div class="p-3">
+            <h5>@Model.TenHH</h5>
+            <p class="text-primary fw-bold">@Model.DonGia.ToString("n0") ₫</p>
+        </div>
+    </div>
+</div>

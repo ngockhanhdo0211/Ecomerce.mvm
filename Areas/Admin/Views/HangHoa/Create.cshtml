@@ -1,0 +1,22 @@
+﻿@model ECommerceMVC.Data.HangHoa
+@{
+    ViewData["Title"] = "Thêm hàng hoá";
+}
+<h3>@ViewData["Title"]</h3>
+
+<form asp-area="Admin" asp-controller="HangHoa" asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label>Tên</label>
+        <input asp-for="TenHh" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Đơn giá</label>
+        <input asp-for="DonGia" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Ảnh</label>
+        <input type="file" name="imageFile" class="form-control" />
+    </div>
+    <button class="btn btn-primary" type="submit">Lưu</button>
+    <a asp-area="Admin" asp-controller="HangHoa" asp-action="Index" class="btn btn-secondary">Hủy</a>
+</form>

@@ -1,0 +1,69 @@
+﻿@model IEnumerable<ECommerceMVC.ViewModels.HangHoaVM>
+
+@{
+    ViewData["Title"] = "Danh sách hàng hóa";
+}
+
+<!-- Header -->
+<div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6">Sản phẩm</h1>
+    <ol class="breadcrumb justify-content-center mb-0">
+        <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+        <li class="breadcrumb-item active text-white">Sản phẩm</li>
+    </ol>
+</div>
+
+<!-- Nội dung chính -->
+<div class="container-fluid fruite py-5">
+    <div class="container py-5">
+        <div class="row g-4">
+
+            <!-- Cột trái: Ô tìm kiếm + Danh mục -->
+            <div class="col-lg-3">
+                <h4 class="mb-4">Hshop2023</h4>
+
+                <!-- Ô tìm kiếm -->
+                <form method="get" asp-controller="HangHoa" asp-action="Index"
+                      class="input-group w-100 mx-auto mb-4 d-flex">
+                    <input type="text" name="keyword" class="form-control p-3"
+                           placeholder="Search Keyword..." />
+                    <button type="submit" class="input-group-text p-3 bg-primary text-white border-0">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </form>
+
+                <!-- Danh mục -->
+                <h5 class="mb-3">Danh mục sản phẩm</h5>
+                <ul class="list-unstyled fruite-categorie">
+                    <li><a href="/HangHoa">Tất cả</a></li>
+                    <li><a href="/HangHoa?maloai=1000">Đồng hồ</a></li>
+                    <li><a href="/HangHoa?maloai=1001">Laptop</a></li>
+                    <li><a href="/HangHoa?maloai=1002">Máy ảnh</a></li>
+                    <li><a href="/HangHoa?maloai=1003">Điện thoại</a></li>
+                    <li><a href="/HangHoa?maloai=1004">Nước hoa</a></li>
+                    <li><a href="/HangHoa?maloai=1005">Trang sức</a></li>
+                    <li><a href="/HangHoa?maloai=1006">Giày</a></li>
+                    <li><a href="/HangHoa?maloai=1007">Vali</a></li>
+                </ul>
+            </div>
+
+            <!-- Cột phải: Danh sách hàng hóa -->
+            <div class="col-lg-9">
+                <div class="row g-4 justify-content-center">
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            @await Html.PartialAsync("ProductItem", item)
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-center text-muted">Không có sản phẩm nào.</p>
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

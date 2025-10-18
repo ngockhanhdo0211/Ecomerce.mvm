@@ -1,0 +1,50 @@
+﻿@model ECommerceMVC.ViewModels.HangHoaVM
+@{
+    ViewData["Title"] = "Chi tiết sản phẩm";
+}
+
+<!-- Header -->
+<div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6">Chi tiết sản phẩm</h1>
+    <ol class="breadcrumb justify-content-center mb-0">
+        <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+        <li class="breadcrumb-item"><a href="/HangHoa">Sản phẩm</a></li>
+        <li class="breadcrumb-item active text-white">@Model.TenHH</li>
+    </ol>
+</div>
+
+<!-- Chi tiết sản phẩm -->
+<div class="container py-5">
+    <div class="row g-5">
+        <!-- Cột trái: Hình ảnh -->
+        <div class="col-lg-5 col-md-6">
+            <img src="~/Hinh/HangHoa/@Model.Hinh" class="img-fluid rounded shadow" alt="@Model.TenHH" />
+        </div>
+
+        <!-- Cột phải: Thông tin -->
+        <div class="col-lg-7 col-md-6">
+            <h2 class="fw-bold mb-3">@Model.TenHH</h2>
+            <h4 class="text-primary mb-3">@Model.DonGia.ToString("N0") ₫</h4>
+
+            <p class="text-muted mb-4">@Model.MoTaNgan</p>
+            <p><strong>Loại sản phẩm:</strong> @Model.TenLoai</p>
+
+            <div class="d-flex align-items-center mt-4">
+                <!-- ✅ Truyền đủ thông tin sản phẩm qua route -->
+                <a asp-controller="GioHang"
+                   asp-action="ThemVaoGio"
+                   asp-route-mahh="@Model.MaHH"
+                   asp-route-tenHH="@Model.TenHH"
+                   asp-route-donGia="@Model.DonGia"
+                   asp-route-hinh="@Model.Hinh"
+                   class="btn btn-success px-4 py-2 me-3">
+                    <i class="fa fa-shopping-cart me-2"></i> Thêm vào giỏ
+                </a>
+
+                <a href="/HangHoa" class="btn btn-outline-secondary px-4 py-2">
+                    <i class="fa fa-arrow-left me-2"></i> Quay lại
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

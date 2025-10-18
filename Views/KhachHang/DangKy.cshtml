@@ -1,0 +1,40 @@
+﻿@model ECommerceMVC.Models.KhachHang
+@{
+    ViewData["Title"] = "Đăng ký tài khoản";
+}
+<h2>@ViewData["Title"]</h2>
+<form asp-action="DangKy" method="post">
+    <div>
+        <label>Mã khách hàng</label>
+        <input asp-for="MaKh" class="form-control" required />
+    </div>
+    <div>
+        <label>Họ tên</label>
+        <input asp-for="HoTen" class="form-control" required />
+    </div>
+    <div>
+        <lable>Mật khẩu</lable>
+        <input asp-for="MatKhau" class="form-control" type="password" required />
+    </div>
+    <div class="form-group mb-3">
+        <label for="Email">Email</label>
+        <input type="email" name="Email" class="form-control" placeholder="Nhập email của bạn" required />
+    </div>
+
+    <div>
+        <lable>Điện thoại</lable>
+        <input asp-for="DienThoai" class="form-control" />
+    </div>
+    <div>
+        <label>Địa chỉ</label>
+        <input asp-for="DiaChi" class="form-control" />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-success">Đăng ký</button>
+
+</form>
+@if (ViewBag.Error != null)
+{
+    <p class="text-danger">@ViewBag.Error</p>
+}
+

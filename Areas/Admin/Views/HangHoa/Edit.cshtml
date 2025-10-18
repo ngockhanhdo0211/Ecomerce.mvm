@@ -1,0 +1,31 @@
+﻿@model ECommerceMVC.Data.HangHoa
+@{
+    ViewData["Title"] = "Sửa hàng hoá";
+}
+<h3>@ViewData["Title"]</h3>
+
+<form asp-area="Admin" asp-controller="HangHoa" asp-action="Edit" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="MaHh" />
+    <div class="mb-3">
+        <label>Tên</label>
+        <input asp-for="TenHh" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Đơn giá</label>
+        <input asp-for="DonGia" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Ảnh hiện tại</label><br />
+        @if (!string.IsNullOrEmpty(Model.Hinh))
+        {
+            <img src="~/Hinh/HangHoa/@Model.Hinh" style="height:80px" />
+        }
+    </div>
+    <div class="mb-3">
+        <label>Thay ảnh (nếu có)</label>
+        <input type="file" name="imageFile" class="form-control" />
+    </div>
+
+    <button class="btn btn-primary" type="submit">Lưu</button>
+    <a asp-area="Admin" asp-controller="HangHoa" asp-action="Index" class="btn btn-secondary">Hủy</a>
+</form>

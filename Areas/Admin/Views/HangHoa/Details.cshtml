@@ -1,0 +1,11 @@
+﻿@model ECommerceMVC.Data.HangHoa
+<h3>Chi tiết</h3>
+<p><b>Tên:</b> @Model.TenHh</p>
+<p><b>Đơn giá:</b> @Model.DonGia.ToString("N0")</p>
+@if (!string.IsNullOrEmpty(Model.Hinh))
+{
+    <img src="~/Hinh/HangHoa/@Model.Hinh" style="height:120px" />
+}
+<p>
+    <a asp-area="Admin" asp-controller="HangHoa" asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</p>

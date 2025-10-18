@@ -1,0 +1,127 @@
+﻿@model List<ECommerceMVC.ViewModels.GioHangItem>
+
+@{
+    ViewData["Title"] = "Giỏ hàng của bạn";
+}
+
+<div class="container py-5">
+    <h2 class="mb-4 text-center text-success fw-bold">
+        🛒 Giỏ hàng của bạn
+    </h2>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-warning text-center shadow-sm p-4 rounded">
+            Giỏ hàng của bạn hiện đang trống.
+        </div>
+        <div class="text-center mt-4">
+            <a href="/HangHoa" class="btn btn-primary px-4">
+                <i class="fa fa-shopping-bag"></i> Tiếp tục mua hàng
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle shadow-sm">
+                <thead class="table-success text-center">
+                    <tr>
+                        <th>Hình</th>
+                        <th>Tên hàng</th>
+                        <th>Đơn giá</th>
+                        <th style="width: 130px;">Số lượng</th>
+                        <th>Thành tiền</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center">
+                                <img src="~/Hinh/HangHoa/@item.Hinh" width="80" class="rounded shadow-sm border" />
+                            </td>
+                            <td>@item.TenHH</td>
+                            <td class="text-end">@item.DonGia.ToString("N0") đ</td>
+                            <td class="text-center">
+                                <form method="post" asp-controller="GioHang" asp-action="CapNhat">
+                                    <input type="hidden" name="mahh" value="@item.MaHH" />
+                                    <div class="input-group input-group-sm justify-content-center">
+                                        <input type="number" name="soluong" value="@item.SoLuong"
+                                               min="1" class="form-control text-center" style="max-width: 70px;" />
+                                        <button type="submit" class="btn btn-outline-success">
+                                            <i class="fa fa-sync"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </td>
+                            <td class="text-end text-primary fw-semibold">@item.ThanhTien.ToString("N0") đ</td>
+                            <td class="text-center">
+                                <a href="/GioHang/Xoa?mahh=@item.MaHH" class="btn btn-outline-danger btn-sm">
+                                    <i class="fa fa-trash"></i> Xóa
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mt-4 flex-wrap gap-3">
+            <a href="/HangHoa" class="btn btn-outline-secondary">
+                <i class="fa fa-arrow-left"></i> Tiếp tục mua hàng
+            </a>
+
+            <div class="text-end">
+                <h4 class="text-dark mb-3">
+                    Tổng tiền: <b class="text-danger">@ViewBag.TongTien.ToString("N0") đ</b>
+                </h4>
+                <div class="d-flex gap-2 justify-content-end flex-wrap">
+                    <a href="/GioHang/XoaTatCa" class="btn btn-outline-danger">
+                        <i class="fa fa-trash"></i> Xóa toàn bộ
+                    </a>
+                    <a href="/ThanhToan" class="btn btn-success">
+                        <i class="fa fa-credit-card"></i> Thanh toán
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    tbody tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+
+    tbody tr:hover {
+        background-color: #eaf4ea;
+        transition: 0.2s;
+    }
+
+    table {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    img {
+        max-height: 80px;
+        object-fit: contain;
+    }
+
+    .input-group button {
+        border-radius: 0 5px 5px 0 !important;
+    }
+</style>
+
+@if (Context.Request.Query["message"] == "added")
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Đã thêm vào giỏ hàng!',
+            showConfirmButton: false,
+            timer: 1500
+        });
+    </script>
+}
