@@ -11,7 +11,7 @@ public partial class GopY
 
     public string NoiDung { get; set; } = null!;
 
-    public DateOnly NgayGy { get; set; }
+    public DateTime NgayGy { get; set; }
 
     public string? HoTen { get; set; }
 
@@ -23,7 +23,14 @@ public partial class GopY
 
     public string? TraLoi { get; set; }
 
-    public DateOnly? NgayTl { get; set; }
+    public DateTime? NgayTl { get; set; }
 
+    // 👉 Thêm khóa ngoại tới KhachHang
+    public int? MaKh { get; set; }
+
+    // Navigation property tới bảng ChuDe (đã có sẵn)
     public virtual ChuDe MaCdNavigation { get; set; } = null!;
+
+    // 👉 Thêm navigation property tới bảng KhachHang
+    public virtual KhachHang? MaKhNavigation { get; set; }
 }

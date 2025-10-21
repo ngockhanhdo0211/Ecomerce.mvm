@@ -15,14 +15,14 @@ namespace ECommerceMVC.Controllers
             db = context;
         }
 
-        // ========================================
+        // =============================
         // [ACTION] Danh sách sản phẩm
-        // ========================================
+        // =============================
         public IActionResult Index(int? maloai, string? keyword)
         {
             // 1️⃣ Lấy danh sách hàng hóa (kèm loại)
             var hangHoas = db.HangHoas
-                             .Include(h => h.Loai) // vì bạn có navigation property "Loai"
+                             .Include(h => h.MaLoaiNavigation)
                              .AsQueryable();
 
             // 2️⃣ Lọc theo mã loại
@@ -46,19 +46,19 @@ namespace ECommerceMVC.Controllers
                 Hinh = h.Hinh,
                 MoTaNgan = h.MoTa,
                 DonGia = h.DonGia,
-                TenLoai = h.Loai != null ? h.Loai.TenLoai : "Chưa phân loại"
+                TenLoai = h.MaLoaiNavigation != null ? h.MaLoaiNavigation.TenLoai : "Chưa phân loại"
             }).ToList();
 
             return View(data);
         }
 
-        // ========================================
+        // =============================
         // [ACTION] Chi tiết sản phẩm
-        // ========================================
+        // =============================
         public IActionResult ChiTiet(int id)
         {
             var hh = db.HangHoas
-                       .Include(h => h.Loai)
+                       .Include(h => h.MaLoaiNavigation)
                        .Where(h => h.MaHh == id)
                        .Select(h => new HangHoaVM
                        {
@@ -67,7 +67,7 @@ namespace ECommerceMVC.Controllers
                            Hinh = h.Hinh,
                            MoTaNgan = h.MoTa,
                            DonGia = h.DonGia,
-                           TenLoai = h.Loai != null ? h.Loai.TenLoai : "Chưa phân loại"
+                           TenLoai = h.MaLoaiNavigation != null ? h.MaLoaiNavigation.TenLoai : "Chưa phân loại"
                        })
                        .FirstOrDefault();
 

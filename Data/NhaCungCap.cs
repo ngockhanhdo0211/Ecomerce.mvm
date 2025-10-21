@@ -15,11 +15,5 @@ public partial class NhaCungCap
 
     public string Email { get; set; } = null!;
 
-    public string? DienThoai { get; set; }
-
-    public string? DiaChi { get; set; }
-
-    public string? MoTa { get; set; }
-
     public virtual ICollection<HangHoa> HangHoas { get; set; } = new List<HangHoa>();
 }

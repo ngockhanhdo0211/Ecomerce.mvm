@@ -6,6 +6,7 @@ namespace ECommerceMVC.Models;
 public partial class KhachHang
 {
     public string MaKh { get; set; } = null!;
+    public virtual ICollection<GopY> GopYs { get; set; } = new List<GopY>();
 
     public string? MatKhau { get; set; }
 

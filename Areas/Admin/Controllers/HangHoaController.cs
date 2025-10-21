@@ -18,7 +18,8 @@ namespace ECommerceMVC.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             var hangHoas = await _context.HangHoas
-                .Include(h => h.Loai)
+                .Include(h => h.MaLoaiNavigation)
+                .Include(h => h.MaNccNavigation)
                 .ToListAsync();
             return View(hangHoas);
         }
@@ -30,7 +31,8 @@ namespace ECommerceMVC.Areas.Admin.Controllers
                 return NotFound();
 
             var hangHoa = await _context.HangHoas
-                .Include(h => h.Loai)
+                .Include(h => h.MaLoaiNavigation)
+                .Include(h => h.MaNccNavigation)
                 .FirstOrDefaultAsync(m => m.MaHh == id);
 
             if (hangHoa == null)
@@ -43,6 +45,7 @@ namespace ECommerceMVC.Areas.Admin.Controllers
         public IActionResult Create()
         {
             ViewData["Loai"] = _context.Loais.ToList();
+            ViewData["NhaCungCap"] = _context.NhaCungCaps.ToList();
             return View();
         }
 
@@ -56,13 +59,9 @@ namespace ECommerceMVC.Areas.Admin.Controllers
                 if (HinhUpload != null)
                 {
                     string fileName = Path.GetFileName(HinhUpload.FileName);
-                    string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Hinh/HangHoa", fileName);
-
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await HinhUpload.CopyToAsync(stream);
-                    }
-
+                    string uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Hinh/HangHoa", fileName);
+                    using var stream = new FileStream(uploadPath, FileMode.Create);
+                    await HinhUpload.CopyToAsync(stream);
                     hangHoa.Hinh = fileName;
                 }
 
@@ -72,6 +71,7 @@ namespace ECommerceMVC.Areas.Admin.Controllers
             }
 
             ViewData["Loai"] = _context.Loais.ToList();
+            ViewData["NhaCungCap"] = _context.NhaCungCaps.ToList();
             return View(hangHoa);
         }
 
@@ -86,6 +86,7 @@ namespace ECommerceMVC.Areas.Admin.Controllers
                 return NotFound();
 
             ViewData["Loai"] = _context.Loais.ToList();
+            ViewData["NhaCungCap"] = _context.NhaCungCaps.ToList();
             return View(hangHoa);
         }
 
@@ -104,13 +105,9 @@ namespace ECommerceMVC.Areas.Admin.Controllers
                     if (HinhUpload != null)
                     {
                         string fileName = Path.GetFileName(HinhUpload.FileName);
-                        string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Hinh/HangHoa", fileName);
-
-                        using (var stream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await HinhUpload.CopyToAsync(stream);
-                        }
-
+                        string uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Hinh/HangHoa", fileName);
+                        using var stream = new FileStream(uploadPath, FileMode.Create);
+                        await HinhUpload.CopyToAsync(stream);
                         hangHoa.Hinh = fileName;
                     }
 
@@ -119,15 +116,17 @@ namespace ECommerceMVC.Areas.Admin.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!HangHoaExists(hangHoa.MaHh))
+                    if (!_context.HangHoas.Any(e => e.MaHh == hangHoa.MaHh))
                         return NotFound();
                     else
                         throw;
                 }
+
                 return RedirectToAction(nameof(Index));
             }
 
             ViewData["Loai"] = _context.Loais.ToList();
+            ViewData["NhaCungCap"] = _context.NhaCungCaps.ToList();
             return View(hangHoa);
         }
 
@@ -138,7 +137,8 @@ namespace ECommerceMVC.Areas.Admin.Controllers
                 return NotFound();
 
             var hangHoa = await _context.HangHoas
-                .Include(h => h.Loai)
+                .Include(h => h.MaLoaiNavigation)
+                .Include(h => h.MaNccNavigation)
                 .FirstOrDefaultAsync(m => m.MaHh == id);
 
             if (hangHoa == null)
@@ -160,11 +160,6 @@ namespace ECommerceMVC.Areas.Admin.Controllers
             }
 
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool HangHoaExists(int id)
-        {
-            return _context.HangHoas.Any(e => e.MaHh == id);
         }
     }
 }

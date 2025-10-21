@@ -3,16 +3,13 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Lấy connection string từ appsettings.json
+// 🔹 Lấy connection string từ appsettings.json
 var connectionString = builder.Configuration.GetConnectionString("Hshop2023Context");
 
-// Đăng ký DbContext
+// 🔹 Đăng ký DbContext
 builder.Services.AddDbContext<Hshop2023Context>(options =>
     options.UseSqlServer(connectionString));
-var tmp = Environment.GetEnvironmentVariable("Namdd");
-Console.WriteLine("tmp", tmp);
-
-// Kích hoạt Session
+// 🔹 Kích hoạt Session
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
@@ -20,12 +17,12 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-// Thêm các dịch vụ MVC
+// 🔹 Thêm dịch vụ MVC
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Cấu hình pipeline
+// 🔹 Cấu hình pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -40,7 +37,7 @@ app.UseRouting();
 app.UseSession();
 app.UseAuthorization();
 
-// Định tuyến mặc định
+// 🔹 Định tuyến mặc định
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

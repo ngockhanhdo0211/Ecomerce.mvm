@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+
 namespace ECommerceMVC.Areas.Admin.Controllers
 {
     [Area("Admin")]

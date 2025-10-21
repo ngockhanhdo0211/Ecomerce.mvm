@@ -180,9 +180,9 @@ public partial class Hshop2023Context : DbContext
             entity.Property(e => e.NgayTl).HasColumnName("NgayTL");
             entity.Property(e => e.TraLoi).HasMaxLength(50);
 
-            entity.HasOne(d => d.MaCdNavigation).WithMany(p => p.Gopies)
-                .HasForeignKey(d => d.MaCd)
-                .HasConstraintName("FK_GopY_ChuDe");
+            //entity.HasOne(d => d.MaCdNavigation).WithMany(p => p.Gopies)
+                //.HasForeignKey(d => d.MaCd)
+                //.HasConstraintName("FK_GopY_ChuDe");
         });
 
         modelBuilder.Entity<HangHoa>(entity =>

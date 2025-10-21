@@ -1,21 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ECommerceMVC.Data;
 
+[Table("ChiTietDonHang")]
 public partial class ChiTietDonHang
 {
+    [Key]
+    [Column("MaCTDH")]
     public int MaCtdh { get; set; }
 
-    public int? MaDh { get; set; }
+    [Required]
+    public int MaDh { get; set; }  // ✅ Khóa ngoại đến HoaDon
 
-    public int? MaHh { get; set; }
+    [Required]
+    public int MaHh { get; set; }  // ✅ Khóa ngoại đến HangHoa
 
-    public int? SoLuong { get; set; }
+    public int SoLuong { get; set; }
 
-    public decimal? DonGia { get; set; }
+    [Column(TypeName = "float")]
+    public double DonGia { get; set; }
 
-    public virtual DonHang? MaDhNavigation { get; set; }
+    // 🔹 Navigation properties
+    [ForeignKey("MaDh")]
+    public virtual HoaDon? MaDhNavigation { get; set; }
 
+    [ForeignKey("MaHh")]
     public virtual HangHoa? MaHhNavigation { get; set; }
 }
