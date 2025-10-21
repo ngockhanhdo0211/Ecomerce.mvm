@@ -12,19 +12,18 @@ public partial class ChiTietDonHang
     public int MaCtdh { get; set; }
 
     [Required]
-    public int MaDh { get; set; }  // ✅ Khóa ngoại đến HoaDon
+    public int MaDh { get; set; }
 
     [Required]
-    public int MaHh { get; set; }  // ✅ Khóa ngoại đến HangHoa
+    public int MaHh { get; set; }
 
     public int SoLuong { get; set; }
 
     [Column(TypeName = "float")]
     public double DonGia { get; set; }
 
-    // 🔹 Navigation properties
     [ForeignKey("MaDh")]
-    public virtual HoaDon? MaDhNavigation { get; set; }
+    public virtual DonHang? MaDhNavigation { get; set; }
 
     [ForeignKey("MaHh")]
     public virtual HangHoa? MaHhNavigation { get; set; }

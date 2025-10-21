@@ -13,6 +13,10 @@ public partial class NhanVien
 
     public string? MatKhau { get; set; }
 
+    // 🔹 Thêm 2 dòng sau để ánh xạ với bảng PhongBan
+    public string? MaPb { get; set; }
+    public virtual PhongBan? MaPbNavigation { get; set; }
+
     public virtual ICollection<ChuDe> ChuDes { get; set; } = new List<ChuDe>();
 
     public virtual ICollection<HoaDon> HoaDons { get; set; } = new List<HoaDon>();

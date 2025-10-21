@@ -46,3 +46,23 @@ button.accept-policy[b-qf8g2vqecm] {
   white-space: nowrap;
   line-height: 60px;
 }
+/* Thêm hoặc sửa quy tắc này trong file site.css */
+
+/* Thay vì 75px, ta cần bù đắp chiều cao của Top-bar và Navbar. 
+ * Hãy thử giá trị 200px để chắc chắn.
+ */
+#main-content[b-qf8g2vqecm] { 
+    padding-top: 200px; 
+}
+
+/* HOẶC nếu bạn không dùng ID, hãy dùng selector mặc định của layout */
+main[role="main"][b-qf8g2vqecm] {
+    padding-top: 200px;
+}
+/* Thêm đoạn này vào file ~/css/style.css */
+
+/* Nhắm mục tiêu vào thẻ DIV chứa @RenderBody() */
+.content-padding-fix[b-qf8g2vqecm] {
+    /* Thử 200px. Nếu chưa được, hãy tăng lên 220px, 240px... */
+    padding-top: 200px; 
+}

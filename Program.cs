@@ -36,6 +36,11 @@ app.UseRouting();
 
 app.UseSession();
 app.UseAuthorization();
+// ✅ Kích hoạt routing cho Areas (Admin, ...)
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
 
 // 🔹 Định tuyến mặc định
 app.MapControllerRoute(

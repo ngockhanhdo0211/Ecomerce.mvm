@@ -5,17 +5,18 @@ namespace ECommerceMVC.Data;
 
 public partial class PhanCong
 {
-    public int MaPc { get; set; }
+    public int MaPc { get; set; } // ✅ Khóa chính
 
-    public string MaNv { get; set; } = null!;
+    public string? MaNv { get; set; }
 
-    public string MaPb { get; set; } = null!;
+    public string? MaPb { get; set; }
 
-    public DateTime? NgayPc { get; set; }
+    public string? NhiemVu { get; set; } // ✅ Bổ sung lại thuộc tính này
 
-    public bool? HieuLuc { get; set; }
+    public DateTime? NgayPhanCong { get; set; } // ✅ Bổ sung lại thuộc tính này
 
-    public virtual NhanVien MaNvNavigation { get; set; } = null!;
+    // Navigation
+    public virtual NhanVien? MaNvNavigation { get; set; }
 
-    public virtual PhongBan MaPbNavigation { get; set; } = null!;
+    public virtual PhongBan? MaPbNavigation { get; set; }
 }

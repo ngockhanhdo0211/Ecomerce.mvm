@@ -7,7 +7,7 @@ namespace ECommerceMVC.Data;
 [Table("BanBe")]
 public partial class BanBe
 {
-    [Key] // ✅ Khóa chính
+    [Key]
     [Column("MaBB")]
     public int MaBb { get; set; }
 
@@ -19,8 +19,7 @@ public partial class BanBe
     [StringLength(100)]
     public string? HoTen { get; set; }
 
-    [Required]
-    [StringLength(100)]
+    [Required, StringLength(100)]
     public string Email { get; set; } = null!;
 
     public DateTime NgayGui { get; set; }
@@ -28,7 +27,6 @@ public partial class BanBe
     [StringLength(250)]
     public string? GhiChu { get; set; }
 
-    // 🔹 Khóa ngoại
     [ForeignKey("MaKh")]
     public virtual KhachHang? MaKhNavigation { get; set; }
 

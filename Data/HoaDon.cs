@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ECommerceMVC.Data;
 
+[Table("HoaDon")]
 public partial class HoaDon
 {
+    [Key]
+    [Column("MaHD")]
     public int MaHd { get; set; }
 
     public string MaKh { get; set; } = null!;
@@ -31,14 +36,15 @@ public partial class HoaDon
 
     public string? GhiChu { get; set; }
 
+    [ForeignKey("MaKh")]
     public virtual KhachHang MaKhNavigation { get; set; } = null!;
 
+    [ForeignKey("MaNv")]
     public virtual NhanVien? MaNvNavigation { get; set; }
 
+    [ForeignKey("MaTrangThai")]
     public virtual TrangThai MaTrangThaiNavigation { get; set; } = null!;
 
-    // 🔹 Thêm dòng này để EF nhận được quan hệ 1 - nhiều với ChiTietDonHang
-    public virtual ICollection<ChiTietDonHang> ChiTietDonHangs { get; set; } = new List<ChiTietDonHang>();
     public virtual ICollection<ChiTietHd> ChiTietHds { get; set; } = new List<ChiTietHd>();
-
+    public virtual ICollection<ChiTietDonHang> ChiTietDonHangs { get; set; } = new List<ChiTietDonHang>();
 }

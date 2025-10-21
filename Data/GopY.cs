@@ -26,7 +26,7 @@ public partial class GopY
     public DateTime? NgayTl { get; set; }
 
     // 👉 Thêm khóa ngoại tới KhachHang
-    public int? MaKh { get; set; }
+    public string? MaKh { get; set; }
 
     // Navigation property tới bảng ChuDe (đã có sẵn)
     public virtual ChuDe MaCdNavigation { get; set; } = null!;
