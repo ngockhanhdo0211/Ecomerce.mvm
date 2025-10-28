@@ -122,23 +122,26 @@ modelBuilder.Entity<HoiDap>(entity =>
         });
 
         // ===== ChiTietHd =====
-        modelBuilder.Entity<ChiTietHd>(entity =>
-        {
-            entity.ToTable("ChiTietHD");
-            entity.HasKey(e => e.MaCt);
-            entity.Property(e => e.DonGia).HasColumnType("float");
-            entity.Property(e => e.SoLuong).HasDefaultValue(1);
+modelBuilder.Entity<ChiTietHd>(entity =>
+{
+    entity.ToTable("ChiTietHD");
+    entity.HasKey(e => e.MaCt);
+    entity.Property(e => e.DonGia).HasColumnType("float");
+    entity.Property(e => e.SoLuong).HasDefaultValue(1);
 
-            entity.HasOne(d => d.MaHhNavigation)
-                .WithMany(p => p.ChiTietHds)
-                .HasForeignKey(d => d.MaHh)
-                .HasConstraintName("FK_ChiTietHd_HangHoa");
+    // ✅ Quan hệ với bảng HangHoa
+    entity.HasOne(d => d.HangHoa)
+        .WithMany(p => p.ChiTietHds)
+        .HasForeignKey(d => d.MaHh)
+        .HasConstraintName("FK_ChiTietHd_HangHoa");
 
-            entity.HasOne<HoaDon>()
-                .WithMany(p => p.ChiTietHds)
-                .HasForeignKey(d => d.MaHd)
-                .HasConstraintName("FK_ChiTietHd_HoaDon");
-        });
+    // ✅ Quan hệ với bảng HoaDon
+    entity.HasOne(d => d.HoaDon)
+        .WithMany(p => p.ChiTietHds)
+        .HasForeignKey(d => d.MaHd)
+        .HasConstraintName("FK_ChiTietHd_HoaDon");
+});
+
 
         // ===== BanBe =====
         modelBuilder.Entity<BanBe>(entity =>

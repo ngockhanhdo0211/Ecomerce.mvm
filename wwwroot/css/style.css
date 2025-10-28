@@ -494,4 +494,31 @@
     line-height: 35px;
 }
 /*** Footer End ***/
+/* === FIX NAVBAR CHE NỘI DUNG === */
+
+/* Tạo khoảng đệm để nội dung không bị che */
+body {
+    padding-top: 170px !important; /* Thường navbar + topbar cao khoảng 150–170px */
+}
+
+/* Khi thu nhỏ màn hình, giảm khoảng đệm */
+@media (max-width: 992px) {
+    body {
+        padding-top: 120px !important;
+    }
+}
+
+/* Đảm bảo navbar cố định không che lớp trên */
+.fixed-top {
+    z-index: 1030 !important;
+    background-color: #fff !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+/* Đảm bảo header không bị “dính” vào topbar */
+.page-header {
+    margin-top: 0 !important;
+    padding-top: 60px !important; /* đẩy phần chữ Shop xuống */
+}
+
 

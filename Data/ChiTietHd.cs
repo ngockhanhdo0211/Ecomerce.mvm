@@ -22,9 +22,10 @@ public partial class ChiTietHd
 
     public double GiamGia { get; set; }
 
-    [ForeignKey("MaHh")]
-    public virtual HangHoa MaHhNavigation { get; set; } = null!;
+    [ForeignKey(nameof(MaHd))]
+        [InverseProperty(nameof(HoaDon.ChiTietHds))]
+        public virtual HoaDon HoaDon { get; set; } = null!;
 
-    [ForeignKey("MaHd")]
-    public virtual HoaDon MaHdNavigation { get; set; } = null!;
+        [ForeignKey(nameof(MaHh))]
+        public virtual HangHoa HangHoa { get; set; } = null!;
 }
