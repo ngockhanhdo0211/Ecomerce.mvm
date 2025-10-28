@@ -1,22 +1,50 @@
 ﻿@model ECommerceMVC.Data.HangHoa
 @{
-    ViewData["Title"] = "Thêm hàng hoá";
+ViewData["Title"] = "Thêm hàng hoá";
+Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
-<h3>@ViewData["Title"]</h3>
 
-<form asp-area="Admin" asp-controller="HangHoa" asp-action="Create" method="post" enctype="multipart/form-data">
-    <div class="mb-3">
-        <label>Tên</label>
-        <input asp-for="TenHh" class="form-control" />
-    </div>
-    <div class="mb-3">
-        <label>Đơn giá</label>
-        <input asp-for="DonGia" class="form-control" />
-    </div>
-    <div class="mb-3">
-        <label>Ảnh</label>
-        <input type="file" name="imageFile" class="form-control" />
-    </div>
-    <button class="btn btn-primary" type="submit">Lưu</button>
+<h3 class="mb-4">@ViewData["Title"]</h3> <form asp-area="Admin" asp-controller="HangHoa" asp-action="Create" method="post" enctype="multipart/form-data"> <div class="mb-3"> <label class="form-label">Tên hàng hóa</label> <input asp-for="TenHh" class="form-control" /> <span asp-validation-for="TenHh" class="text-danger"></span> </div>
+<div class="mb-3">
+    <label class="form-label">Đơn giá</label>
+    <input asp-for="DonGia" type="number" class="form-control" />
+    <span asp-validation-for="DonGia" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Ngày sản xuất</label>
+    <input asp-for="NgaySx" type="date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+    <span asp-validation-for="NgaySx" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Loại hàng</label>
+    <select asp-for="MaLoai" class="form-select" asp-items="@(new SelectList((IEnumerable<ECommerceMVC.Data.Loai>)ViewData["Loai"], "MaLoai", "TenLoai"))">
+        <option value="">-- Chọn loại --</option>
+    </select>
+    <span asp-validation-for="MaLoai" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Nhà cung cấp</label>
+    <select asp-for="MaNcc" class="form-select" asp-items="@(new SelectList((IEnumerable<ECommerceMVC.Data.NhaCungCap>)ViewData["NhaCungCap"], "MaNcc", "TenCongTy"))">
+        <option value="">-- Chọn nhà cung cấp --</option>
+    </select>
+    <span asp-validation-for="MaNcc" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Chọn hình ảnh</label>
+    <input type="file" name="HinhUpload" class="form-control" />
+</div>
+
+<div class="d-flex gap-2 mt-3">
+    <button type="submit" class="btn btn-success">Lưu</button>
     <a asp-area="Admin" asp-controller="HangHoa" asp-action="Index" class="btn btn-secondary">Hủy</a>
+</div>
+
 </form>
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}

@@ -1,31 +1,68 @@
 ﻿@model ECommerceMVC.Data.HangHoa
 @{
-    ViewData["Title"] = "Sửa hàng hoá";
+ViewData["Title"] = "Sửa hàng hoá";
+Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
-<h3>@ViewData["Title"]</h3>
 
-<form asp-area="Admin" asp-controller="HangHoa" asp-action="Edit" method="post" enctype="multipart/form-data">
-    <input type="hidden" asp-for="MaHh" />
-    <div class="mb-3">
-        <label>Tên</label>
-        <input asp-for="TenHh" class="form-control" />
-    </div>
-    <div class="mb-3">
-        <label>Đơn giá</label>
-        <input asp-for="DonGia" class="form-control" />
-    </div>
-    <div class="mb-3">
-        <label>Ảnh hiện tại</label><br />
-        @if (!string.IsNullOrEmpty(Model.Hinh))
-        {
-            <img src="~/Hinh/HangHoa/@Model.Hinh" style="height:80px" />
-        }
-    </div>
-    <div class="mb-3">
-        <label>Thay ảnh (nếu có)</label>
-        <input type="file" name="imageFile" class="form-control" />
-    </div>
+<h3 class="mb-4">@ViewData["Title"]</h3> <form asp-area="Admin" asp-controller="HangHoa" asp-action="Edit" method="post" enctype="multipart/form-data"> <input type="hidden" asp-for="MaHh" />
+<div class="mb-3">
+    <label class="form-label">Tên hàng hóa</label>
+    <input asp-for="TenHh" class="form-control" />
+    <span asp-validation-for="TenHh" class="text-danger"></span>
+</div>
 
-    <button class="btn btn-primary" type="submit">Lưu</button>
+<div class="mb-3">
+    <label class="form-label">Đơn giá</label>
+    <input asp-for="DonGia" type="number" class="form-control" />
+    <span asp-validation-for="DonGia" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Ngày sản xuất</label>
+    <input asp-for="NgaySx" type="date" class="form-control" />
+    <span asp-validation-for="NgaySx" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Loại hàng</label>
+    <select asp-for="MaLoai" class="form-select" asp-items="@(new SelectList((IEnumerable<ECommerceMVC.Data.Loai>)ViewData["Loai"], "MaLoai", "TenLoai"))">
+        <option value="">-- Chọn loại --</option>
+    </select>
+    <span asp-validation-for="MaLoai" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Nhà cung cấp</label>
+    <select asp-for="MaNcc" class="form-select" asp-items="@(new SelectList((IEnumerable<ECommerceMVC.Data.NhaCungCap>)ViewData["NhaCungCap"], "MaNcc", "TenCongTy"))">
+        <option value="">-- Chọn nhà cung cấp --</option>
+    </select>
+    <span asp-validation-for="MaNcc" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Ảnh hiện tại</label><br />
+    @if (!string.IsNullOrEmpty(Model.Hinh))
+    {
+        <img src="~/Hinh/HangHoa/@Model.Hinh" style="height: 100px; border-radius: 8px;" class="shadow-sm" />
+    }
+    else
+    {
+        <span class="text-muted">Chưa có ảnh</span>
+    }
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Thay ảnh (nếu có)</label>
+    <input type="file" name="HinhUpload" class="form-control" />
+</div>
+
+<div class="d-flex gap-2 mt-3">
+    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
     <a asp-area="Admin" asp-controller="HangHoa" asp-action="Index" class="btn btn-secondary">Hủy</a>
+</div>
+
 </form>
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}
