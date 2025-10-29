@@ -78,7 +78,7 @@ namespace ECommerceMVC.Controllers
 
         // 🔹 Cập nhật số lượng (POST)
         [HttpPost]
-        public IActionResult CapNhatSoLuong(int mahh, int soLuong)
+        public IActionResult CapNhat(int mahh, int soLuong)
         {
             var gioHang = LayGioHang();
             var item = gioHang.FirstOrDefault(p => p.MaHH == mahh);

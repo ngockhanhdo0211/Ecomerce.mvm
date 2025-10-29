@@ -20,3 +20,20 @@ html {
 body {
   margin-bottom: 60px;
 }
+/* Fix navbar che nội dung */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1050;
+}
+
+body {
+    padding-top: 100px; /* bù lại khoảng trống do navbar chiếm */
+}
+
+@media (max-width: 992px) {
+    body {
+        padding-top: 80px;
+    }
+}

@@ -1,42 +1,72 @@
 ﻿@model List<ECommerceMVC.ViewModels.GioHangItem>
 
+@{
+    ViewData["Title"] = "Xác nhận Thanh toán";
+}
+
 <div class="container py-5">
-    <h2 class="text-center text-success fw-bold mb-4">Thanh toán</h2>
+    <h2 class="mb-4 text-center text-success fw-bold">
+        📝 Xác nhận đơn hàng
+    </h2>
 
-    <table class="table table-bordered">
-        <thead class="table-light text-center">
-            <tr>
-                <th>Tên hàng</th>
-                <th>Đơn giá</th>
-                <th>Số lượng</th>
-                <th>Thành tiền</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.TenHH</td>
-                    <td class="text-end">@item.DonGia.ToString("N0") đ</td>
-                    <td class="text-center">@item.SoLuong</td>
-                    <td class="text-end">@item.ThanhTien.ToString("N0") đ</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-    <div class="text-end mt-3">
-        <h4 class="text-dark">
-            Tổng tiền:
-            <b class="text-danger">@ViewBag.TongTien.ToString("N0") đ</b>
-        </h4>
-    </div>
-
-    <form action="/ThanhToan/XacNhan" method="post">
-        <div class="mt-4 text-end">
-            <button type="submit" class="btn btn-success px-4 py-2">
-                Xác nhận thanh toán
-            </button>
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-warning text-center shadow-sm p-4 rounded">
+            Giỏ hàng của bạn đang trống, không thể thanh toán.
         </div>
-    </form>
+    }
+    else
+    {
+        <div class="table-responsive" style="margin-top: 80px;">
+            <table class="table table-bordered align-middle shadow-sm">
+                <thead class="table-success text-center">
+                    <tr>
+                        <th style="width: 100px;">Hình</th> 
+                        <th>Tên hàng</th>
+                        <th style="width: 150px;">Đơn giá</th>
+                        <th style="width: 100px;">Số lượng</th>
+                        <th style="width: 150px;">Thành tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center">
+                                <img src="~/Hinh/HangHoa/@item.Hinh" width="80" class="rounded shadow-sm border" />
+                            </td>
+                            <td>@item.TenHH</td>
+                            <td class="text-end">@item.DonGia.ToString("N0") đ</td>
+                            <td class="text-center">@item.SoLuong</td>
+                            <td class="text-end text-primary fw-semibold">@item.ThanhTien.ToString("N0") đ</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-end mt-4">
+            <h4 class="text-dark mb-3">
+                Tổng tiền: 
+                <b class="text-danger">@ViewBag.TongTien.ToString("N0") đ</b>
+            </h4>
+            
+            <form asp-controller="ThanhToan" asp-action="XacNhan" method="post">
+                 <button type="submit" class="btn btn-success btn-lg px-5">
+                    <i class="fa fa-check-circle"></i> Xác nhận thanh toán
+                 </button>
+            </form>
+            
+            <a href="/GioHang" class="btn btn-outline-secondary mt-2">
+                <i class="fa fa-arrow-left"></i> Quay lại giỏ hàng
+            </a>
+        </div>
+    }
 </div>
+
+<style>
+    img {
+        max-height: 80px;
+        object-fit: contain;
+    }
+</style>
