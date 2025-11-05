@@ -16,40 +16,53 @@ namespace ECommerceMVC.Controllers
         }
 
         // =============================
-        // [ACTION] Danh sách sản phẩm
+        // [ACTION] Danh sách sản phẩm + Lọc + Phân trang
         // =============================
-        public IActionResult Index(int? maloai, string? keyword)
+        public IActionResult Index(int? maloai, string? keyword, int page = 1)
         {
-            // 1️⃣ Lấy danh sách hàng hóa (kèm loại)
-            var hangHoas = db.HangHoas
-                             .Include(h => h.MaLoaiNavigation)
-                             .AsQueryable();
+            int pageSize = 8;
 
-            // 2️⃣ Lọc theo mã loại
+            // 1️⃣ Query base
+            var query = db.HangHoas
+                .Include(h => h.MaLoaiNavigation)
+                .AsQueryable();
+
+            // 2️⃣ Lọc theo loại
             if (maloai.HasValue)
-            {
-                hangHoas = hangHoas.Where(h => h.MaLoai == maloai.Value);
-            }
+                query = query.Where(h => h.MaLoai == maloai.Value);
 
             // 3️⃣ Lọc theo từ khóa
             if (!string.IsNullOrEmpty(keyword))
             {
                 keyword = keyword.Trim().ToLower();
-                hangHoas = hangHoas.Where(h => h.TenHh.ToLower().Contains(keyword));
+                query = query.Where(h => h.TenHh.ToLower().Contains(keyword));
             }
 
-            // 4️⃣ Chuyển sang ViewModel
-            var data = hangHoas.Select(h => new HangHoaVM
-            {
-                MaHH = h.MaHh,
-                TenHH = h.TenHh,
-                Hinh = h.Hinh,
-                MoTaNgan = h.MoTa,
-                DonGia = h.DonGia,
-                TenLoai = h.MaLoaiNavigation != null ? h.MaLoaiNavigation.TenLoai : "Chưa phân loại"
-            }).ToList();
+            // 4️⃣ Phân trang
+            int totalItems = query.Count();
+            int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+            var items = query
+                .OrderBy(h => h.TenHh)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Select(h => new HangHoaVM
+                {
+                    MaHH = h.MaHh,
+                    TenHH = h.TenHh,
+                    Hinh = h.Hinh,
+                    MoTaNgan = h.MoTa,
+                    DonGia = h.DonGia,
+                    TenLoai = h.MaLoaiNavigation != null ? h.MaLoaiNavigation.TenLoai : "Chưa phân loại"
+                })
+                .ToList();
 
-            return View(data);
+            // 5️⃣ Truyền dữ liệu sang View
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.Keyword = keyword;
+            ViewBag.MaLoai = maloai;
+
+            return View(items);
         }
 
         // =============================
@@ -75,6 +88,53 @@ namespace ECommerceMVC.Controllers
                 return NotFound();
 
             return View(hh);
+        }
+
+        // =============================
+        // [ACTION] Kết quả tìm kiếm (hiển thị riêng)
+        // =============================
+        [HttpGet]
+        public IActionResult Search(string keyword)
+        {
+            if (string.IsNullOrWhiteSpace(keyword))
+                return RedirectToAction("Index");
+
+            var data = db.HangHoas
+                .Where(h => h.TenHh.Contains(keyword))
+                .Select(h => new HangHoaVM
+                {
+                    MaHH = h.MaHh,
+                    TenHH = h.TenHh,
+                    Hinh = h.Hinh,
+                    DonGia = h.DonGia,
+                    MoTaNgan = h.MoTa
+                })
+                .ToList();
+
+            ViewBag.Keyword = keyword;
+            return View("SearchResult", data);
+        }
+
+        // =============================
+        // [ACTION] Gợi ý từ khóa (autocomplete)
+        // =============================
+        [HttpGet]
+        public IActionResult Suggest(string keyword)
+        {
+            if (string.IsNullOrWhiteSpace(keyword))
+                return Json(new { });
+
+            var data = db.HangHoas
+                .Where(h => h.TenHh.Contains(keyword))
+                .Select(h => new
+                {
+                    maHH = h.MaHh,
+                    tenHH = h.TenHh
+                })
+                .Take(5)
+                .ToList();
+
+            return Json(data);
         }
     }
 }
